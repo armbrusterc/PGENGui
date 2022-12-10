@@ -20,7 +20,7 @@ def passwordGenerate():
     try:
         length = int(lengthEntry.get())
         if length < 8:
-            raise ValueError("Length must be 8 or greater.")
+            raise ValueError()
         passOutput = ''
         while len(passOutput) < length:
             if upperEnable.get():
@@ -31,6 +31,8 @@ def passwordGenerate():
                 passOutput += f'{choice(digits)}'
             if punctuationEnable.get():
                 passOutput += f'{choice(punctuation)}'
+            if len(passOutput) == 0:
+                raise IndexError()
         passOutput = ''.join(sorted(passOutput, key=lambda x: random()))
     except IndexError:
         passOutput = "Choose character sets!"
@@ -61,6 +63,7 @@ password.grid(row=0, column=1, sticky=tk.W + tk.E)
 
 outputFrame.pack(pady=10, padx=10)
 
+'''
 # =============================================
 # Entry frame definition
 # =============================================
@@ -69,17 +72,17 @@ entryFrame.columnconfigure(0, weight=1)
 entryFrame.columnconfigure(1, weight=1)
 entryFrame.columnconfigure(2, weight=1)
 
-'''
+
 customLabel = tk.Label(entryFrame, text='Custom Set:', font=('Arial', 12))
 customLabel.grid(row=1, column=0, sticky=tk.W + tk.E)
 
 customEntry = tkinter.Entry(entryFrame, font=('Arial', 12), width=64)
 customEntry.grid(row=1, column=1, sticky=tk.W + tk.E)
 # customEntry.insert(0, f'{ascii_lowercase}{ascii_uppercase}{digits}{punctuation}')
-'''
+
 
 entryFrame.pack(fill=tk.X, pady=10, padx=10)
-
+'''
 # =============================================
 # Checkbox frame definition
 # =============================================
@@ -96,7 +99,7 @@ lengthLabel.grid(row=0, column=0, sticky=tk.W + tk.E)
 
 lengthEntry = tkinter.Entry(checkFrame, font=('Arial', 12), width=4)
 lengthEntry.grid(row=0, column=1, sticky=tk.W + tk.E)
-lengthEntry.insert(0, '8')
+lengthEntry.insert(0, '12')
 
 lowerEnable = tkinter.IntVar()  # tk.IntVar() needed to hold value of checkbox input for comparison
 lowerCheck = tk.Checkbutton(checkFrame, variable=lowerEnable, text='Lower Case', font=('Arial', 12))
